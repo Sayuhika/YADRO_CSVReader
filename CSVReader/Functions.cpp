@@ -10,6 +10,9 @@ extern vector<string> *exceptions_collector;
 // Функция чтения строки
 int ReadLine(string line, vector<string>& row, string& r_n)
 {
+	// Учет CRLF
+	line.erase(remove(line.begin(), line.end(), '\r'),line.end());
+
 	stringstream str(line);
 	string value;
 
