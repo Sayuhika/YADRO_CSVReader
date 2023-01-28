@@ -87,7 +87,7 @@ string Order(char op, string arg1, string arg2, string& cell_value)
 			"\nЛевый аргумент:  " + arg1 +
 			"\nПравый аргумент: " + arg2);
 
-		return (arg1 + arg2);
+		return (cell_value);
 	};
 
 	switch (op) {
@@ -105,7 +105,7 @@ string Order(char op, string arg1, string arg2, string& cell_value)
 			return to_string(arg1_i / arg2_i);
 	}
 	default:
-		return (arg1 + arg2);
+		return (cell_value);
 	}
 }
 
@@ -133,6 +133,7 @@ string GetResultAtCell(int c_n, int r_n, vector<string>& column_headers, vector<
 	vector<vector<string>>& table, vector<vector<bool>>& map)
 {
 	string cell_value = table[r_n][c_n];
+	if (map[r_n][c_n]) return cell_value;
 
 	if (cell_value[0] == '=')
 	{

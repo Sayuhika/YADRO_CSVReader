@@ -18,10 +18,10 @@ int main(int argc, char* argv[])
 		file_name = argv[1];
 	}
 	else {
-		//file_name = "t_s.csv";
-		cout << "Работа программы прекращена по причине:" << endl;
-		cout << "Путь к файлу не указан." << endl;
-		return 1;
+		file_name = "t_ex4.csv";
+		//cout << "Работа программы прекращена по причине:" << endl;
+		//cout << "Путь к файлу не указан." << endl;
+		//return 1;
 	}
 
 	vector<vector<string>> table;
@@ -121,11 +121,8 @@ int main(int argc, char* argv[])
 
 	// Расчет значений в таблице
 	for (i = 0; i < table.size(); i++){
-		for (j = 0; j < table[0].size(); j++){
-			if (!check_pos_map[i][j]) {
-
-				table[i][j] = GetResultAtCell(j, i, column_headers, row_numbers, table, check_pos_map);
-			}
+		for (j = 0; j < table[0].size(); j++){		
+			table[i][j] = GetResultAtCell(j, i, column_headers, row_numbers, table, check_pos_map);
 		}
 	}
 
