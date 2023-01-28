@@ -74,11 +74,12 @@ string Order(char op, string arg1, string arg2, string& cell_value)
 {
 	double arg1_i, arg2_i;
 
-	try {
+	if((arg1.find_first_not_of(nums + ",.") == string::npos) && (arg2.find_first_not_of(nums + ",.") == string::npos))
+	{
 		arg1_i = stod(arg1);
 		arg2_i = stod(arg2);
 	}
-	catch (const exception&)
+	else
 	{
 		exceptions_collector->push_back(
 			"Неудалось вычислить выражение (" + cell_value + ") по причине:" +
@@ -86,7 +87,7 @@ string Order(char op, string arg1, string arg2, string& cell_value)
 			"\nЛевый аргумент:  " + arg1 +
 			"\nПравый аргумент: " + arg2);
 
-		return (arg1 + arg1);
+		return (arg1 + arg2);
 	};
 
 	switch (op) {
@@ -104,7 +105,7 @@ string Order(char op, string arg1, string arg2, string& cell_value)
 			return to_string(arg1_i / arg2_i);
 	}
 	default:
-		return (arg1 + arg1);
+		return (arg1 + arg2);
 	}
 }
 
