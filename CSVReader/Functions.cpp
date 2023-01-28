@@ -101,7 +101,7 @@ string Order(char op, string arg1, string arg2, string& cell_value)
 			return to_string(arg1_i / arg2_i);
 	}
 	default:
-		break;
+		return (arg1 + arg1);
 	}
 }
 
@@ -121,7 +121,7 @@ string GetResultAtCell(int c_n, int r_n, vector<string>& column_headers, vector<
 			// —лучай одного аргумента "=A1"
 			string arg_s;
 			int arg_i, argr_i;
-			size_t eos_i = cell_value.find_last_not_of(numbers);
+			size_t eos_i = cell_value.find_last_not_of(nums);
 			arg_i = stoi(cell_value.substr(eos_i + 1, cell_value.size() - eos_i));
 			arg_s = cell_value.substr(1, eos_i);
 
@@ -144,12 +144,12 @@ string GetResultAtCell(int c_n, int r_n, vector<string>& column_headers, vector<
 		size_t eos_i = 0;
 
 		// Ќаходим им€ колонки и номер строки правого аргумента
-		eos_i = cell_value.find_last_not_of(numbers);
+		eos_i = cell_value.find_last_not_of(nums);
 		arg2_i = stoi(cell_value.substr(eos_i + 1, cell_value.size() - eos_i));
 		arg2_s = cell_value.substr(op_pos + 1, eos_i - op_pos);
 
 		// Ќаходим им€ колонки и номер строки левого аргумента
-		eos_i = cell_value.find_last_not_of(numbers, op_pos - 1);
+		eos_i = cell_value.find_last_not_of(nums, op_pos - 1);
 		arg1_i = stoi(cell_value.substr(eos_i + 1, op_pos - eos_i));
 		arg1_s = cell_value.substr(1, eos_i);
 

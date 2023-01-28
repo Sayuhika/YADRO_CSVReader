@@ -5,7 +5,7 @@
 
 using namespace std;
 
-const string numbers = "0123456789";
+const string nums = "0123456789";
 
 /// <summary>
 /// Функция чтения строки

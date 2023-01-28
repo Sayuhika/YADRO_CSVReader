@@ -43,7 +43,7 @@ int main(int argc, char* argv[])
 
 		// Проверка на корректность имен колонок
 		for(string header:column_headers){
-			if (numbers.find(header[header.size() - 1]) != string::npos) {
+			if (nums.find(header[header.size() - 1]) != string::npos) {
 				cout << "Программа завершила работу с ошибкой:" << endl;
 				cout << "Некорректное имя колонки: " << header << "." << endl;
 				cout << "Имя колонки не должно заканчиваться на цифру." << endl;
