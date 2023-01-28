@@ -105,6 +105,25 @@ string Order(char op, string arg1, string arg2, string& cell_value)
 	}
 }
 
+// Функция попытки получения int из string
+bool TryStoI(int &arg, string &cell_value, int substr_start_pos, int substr_count) {
+	
+	string temp = cell_value.substr(substr_start_pos, substr_count);
+
+	try 
+	{ 
+		arg = stoi(temp);
+	}
+	catch (invalid_argument)
+	{
+		exceptions_collector->push_back(
+			"Расчет значения в ячейке (" + cell_value + ") был прекращен по причине:" +
+			"\nНе удалось преобразовать к числу выражение (" + temp + ").");
+		return false;
+	}
+	return true;
+}
+
 // Функция вычисления значения в ячейке
 string GetResultAtCell(int c_n, int r_n, vector<string>& column_headers, vector<int>& row_numbers, 
 	vector<vector<string>>& table, vector<vector<bool>>& map)
@@ -121,11 +140,16 @@ string GetResultAtCell(int c_n, int r_n, vector<string>& column_headers, vector<
 			// Случай одного аргумента "=A1"
 			string arg_s;
 			int arg_i, argr_i;
-			size_t eos_i = cell_value.find_last_not_of(nums);
-			arg_i = stoi(cell_value.substr(eos_i + 1, cell_value.size() - eos_i));
+			size_t index_r, index_c;
+
+			size_t eos_i = cell_value.find_last_not_of(nums);			
+			if (!TryStoI(arg_i, cell_value, eos_i + 1, cell_value.size() - eos_i)) {
+				map[r_n][c_n] = true;
+				return table[r_n][c_n] = cell_value;
+			}
 			arg_s = cell_value.substr(1, eos_i);
 
-			size_t index_r, index_c;
+			// Попытка получения индексов ячейки
 			if (!FindCellIndexes(arg_i, arg_s, row_numbers, column_headers, index_r, index_c, cell_value))
 			{
 				map[r_n][c_n] = true;
@@ -145,18 +169,25 @@ string GetResultAtCell(int c_n, int r_n, vector<string>& column_headers, vector<
 
 		// Находим имя колонки и номер строки правого аргумента
 		eos_i = cell_value.find_last_not_of(nums);
-		arg2_i = stoi(cell_value.substr(eos_i + 1, cell_value.size() - eos_i));
+		if (!TryStoI(arg2_i, cell_value, eos_i + 1, cell_value.size() - eos_i)) {
+			map[r_n][c_n] = true;
+			return table[r_n][c_n] = cell_value;
+		}
 		arg2_s = cell_value.substr(op_pos + 1, eos_i - op_pos);
 
 		// Находим имя колонки и номер строки левого аргумента
 		eos_i = cell_value.find_last_not_of(nums, op_pos - 1);
-		arg1_i = stoi(cell_value.substr(eos_i + 1, op_pos - eos_i));
+		if (!TryStoI(arg1_i, cell_value, eos_i + 1, op_pos - eos_i)) {
+			map[r_n][c_n] = true;
+			return table[r_n][c_n] = cell_value;
+		}
 		arg1_s = cell_value.substr(1, eos_i);
 
 		// Ищем непосредственные номера ячеек в таблице
-		// Аргумент 1
 		size_t index1_r, index2_r, index1_c, index2_c;
 
+		// Аргумент 1
+		// Попытка получения индексов ячейки
 		if (!FindCellIndexes(arg1_i, arg1_s, row_numbers, column_headers, index1_r, index1_c, cell_value))
 		{
 			map[r_n][c_n] = true;
@@ -164,6 +195,7 @@ string GetResultAtCell(int c_n, int r_n, vector<string>& column_headers, vector<
 		}
 
 		// Аргумент 2
+		// Попытка получения индексов ячейки
 		if (!FindCellIndexes(arg2_i, arg2_s, row_numbers, column_headers, index2_r, index2_c, cell_value)) 
 		{
 			map[r_n][c_n] = true;

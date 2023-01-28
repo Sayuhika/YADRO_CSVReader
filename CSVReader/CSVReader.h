@@ -41,6 +41,16 @@ bool FindCellIndexes(int& arg_r, string& arg_c, vector<int> row_numbers, vector<
 string Order(int mod, string arg1, string arg2, string& cell_value);
 
 /// <summary>
+/// Функция попытки получения int из string
+/// </summary>
+/// <param name="arg">Переменная для хранения int</param>
+/// <param name="cell_value">Исходная ячейка</param>
+/// <param name="substr_start_pos">Позиция с которой мы пытаемся срезать число из исходной ячейки</param>
+/// <param name="substr_count">Число срезаемых символов</param>
+/// <returns></returns>
+bool TryStoI(int& arg, string& cell_value, int substr_start_pos, int substr_count);
+
+/// <summary>
 /// Функция вычисления значения в ячейке
 /// </summary>
 /// <param name="c_n">Индекс колонки ячейки</param>
