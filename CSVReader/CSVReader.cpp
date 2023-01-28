@@ -18,10 +18,10 @@ int main(int argc, char* argv[])
 		file_name = argv[1];
 	}
 	else {
-		file_name = "t_s.csv";
-		/*cout << "Работа программы прекращена по причине:" << endl;
+		//file_name = "t_s.csv";
+		cout << "Работа программы прекращена по причине:" << endl;
 		cout << "Путь к файлу не указан." << endl;
-		return 1;*/
+		return 1;
 	}
 
 	vector<vector<string>> table;
