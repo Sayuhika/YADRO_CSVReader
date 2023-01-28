@@ -1,4 +1,4 @@
-#include "CSVReader.h"
+п»ї#include "CSVReader.h"
 #include <fstream>
 #include <sstream>
 #include <algorithm>
@@ -7,7 +7,7 @@ using namespace std;
 
 extern vector<string> *exceptions_collector;
 
-// Функция чтения строки
+// Р¤СѓРЅРєС†РёСЏ С‡С‚РµРЅРёСЏ СЃС‚СЂРѕРєРё
 int ReadLine(string line, vector<string>& row, string& r_n)
 {
 	stringstream str(line);
@@ -32,7 +32,7 @@ int ReadLine(string line, vector<string>& row, string& r_n)
 	return row_number;
 }
 
-// Функция поиска индексов ячейки
+// Р¤СѓРЅРєС†РёСЏ РїРѕРёСЃРєР° РёРЅРґРµРєСЃРѕРІ СЏС‡РµР№РєРё
 bool FindCellIndexes(int &arg_r, string &arg_c, vector<int> row_numbers, vector<string> column_headers, 
 	size_t &index_r, size_t&index_c, string &cell_value)
 {
@@ -45,7 +45,7 @@ bool FindCellIndexes(int &arg_r, string &arg_c, vector<int> row_numbers, vector<
 			break;
 		}
 	}
-	// Столбец
+	// РЎС‚РѕР»Р±РµС†
 	for (size_t i = 0; i < column_headers.size(); i++) 
 	{
 		index_c = -1;
@@ -57,16 +57,16 @@ bool FindCellIndexes(int &arg_r, string &arg_c, vector<int> row_numbers, vector<
 	}
 	if ((index_c == -1) || (index_r == -1)) 
 	{
-		string ex_mes = ("Неудалось вычислить выражение (" + cell_value + ") по причине:");
-		if (index_r == -1) ex_mes += ("\nСтрока с номером (" + to_string(arg_r) + ") не найдена.");
-		if (index_c == -1) ex_mes += ("\nКолонка с именем (" + arg_c + ") не найдена.");
+		string ex_mes = ("РќРµСѓРґР°Р»РѕСЃСЊ РІС‹С‡РёСЃР»РёС‚СЊ РІС‹СЂР°Р¶РµРЅРёРµ (" + cell_value + ") РїРѕ РїСЂРёС‡РёРЅРµ:");
+		if (index_r == -1) ex_mes += ("\nРЎС‚СЂРѕРєР° СЃ РЅРѕРјРµСЂРѕРј (" + to_string(arg_r) + ") РЅРµ РЅР°Р№РґРµРЅР°.");
+		if (index_c == -1) ex_mes += ("\nРљРѕР»РѕРЅРєР° СЃ РёРјРµРЅРµРј (" + arg_c + ") РЅРµ РЅР°Р№РґРµРЅР°.");
 		exceptions_collector->push_back(ex_mes);
 		return false;
 	}
 	return true;
 }
 
-// Считает математическую операцию между двумя аргументами
+// РЎС‡РёС‚Р°РµС‚ РјР°С‚РµРјР°С‚РёС‡РµСЃРєСѓСЋ РѕРїРµСЂР°С†РёСЋ РјРµР¶РґСѓ РґРІСѓРјСЏ Р°СЂРіСѓРјРµРЅС‚Р°РјРё
 string Order(char op, string arg1, string arg2, string& cell_value)
 {
 	double arg1_i, arg2_i;
@@ -78,10 +78,10 @@ string Order(char op, string arg1, string arg2, string& cell_value)
 	catch (const exception&)
 	{
 		exceptions_collector->push_back(
-			"Неудалось вычислить выражение (" + cell_value + ") по причине:" +
-			"\nОдин из аргументов не является числом." +
-			"\nЛевый аргумент:  " + arg1 +
-			"\nПравый аргумент: " + arg2);
+			"РќРµСѓРґР°Р»РѕСЃСЊ РІС‹С‡РёСЃР»РёС‚СЊ РІС‹СЂР°Р¶РµРЅРёРµ (" + cell_value + ") РїРѕ РїСЂРёС‡РёРЅРµ:" +
+			"\nРћРґРёРЅ РёР· Р°СЂРіСѓРјРµРЅС‚РѕРІ РЅРµ СЏРІР»СЏРµС‚СЃСЏ С‡РёСЃР»РѕРј." +
+			"\nР›РµРІС‹Р№ Р°СЂРіСѓРјРµРЅС‚:  " + arg1 +
+			"\nРџСЂР°РІС‹Р№ Р°СЂРіСѓРјРµРЅС‚: " + arg2);
 
 		return (arg1 + arg1);
 	};
@@ -105,7 +105,7 @@ string Order(char op, string arg1, string arg2, string& cell_value)
 	}
 }
 
-// Функция вычисления значения в ячейке
+// Р¤СѓРЅРєС†РёСЏ РІС‹С‡РёСЃР»РµРЅРёСЏ Р·РЅР°С‡РµРЅРёСЏ РІ СЏС‡РµР№РєРµ
 string GetResultAtCell(int c_n, int r_n, vector<string>& column_headers, vector<int>& row_numbers, 
 	vector<vector<string>>& table, vector<vector<bool>>& map)
 {
@@ -113,12 +113,12 @@ string GetResultAtCell(int c_n, int r_n, vector<string>& column_headers, vector<
 
 	if (cell_value[0] == '=')
 	{
-		// Поиск оператора
+		// РџРѕРёСЃРє РѕРїРµСЂР°С‚РѕСЂР°
 		char op_chr = '\0';
 		size_t op_pos = cell_value.find_first_of("+-*/", 1);
 		if (op_pos != string::npos) op_chr = cell_value[op_pos];
 		else {
-			// Случай одного аргумента "=A1"
+			// РЎР»СѓС‡Р°Р№ РѕРґРЅРѕРіРѕ Р°СЂРіСѓРјРµРЅС‚Р° "=A1"
 			string arg_s;
 			int arg_i, argr_i;
 			size_t eos_i = cell_value.find_last_not_of(nums);
@@ -137,24 +137,24 @@ string GetResultAtCell(int c_n, int r_n, vector<string>& column_headers, vector<
 			return cell_value;
 		}
 
-		// Случай двух аргументов "=A1+A2"
-		// Блок выделения аргументов из ячейки // Начало // ========================================== //
+		// РЎР»СѓС‡Р°Р№ РґРІСѓС… Р°СЂРіСѓРјРµРЅС‚РѕРІ "=A1+A2"
+		// Р‘Р»РѕРє РІС‹РґРµР»РµРЅРёСЏ Р°СЂРіСѓРјРµРЅС‚РѕРІ РёР· СЏС‡РµР№РєРё // РќР°С‡Р°Р»Рѕ // ========================================== //
 		string arg1_s, arg2_s;
 		int arg1_i, arg2_i;
 		size_t eos_i = 0;
 
-		// Находим имя колонки и номер строки правого аргумента
+		// РќР°С…РѕРґРёРј РёРјСЏ РєРѕР»РѕРЅРєРё Рё РЅРѕРјРµСЂ СЃС‚СЂРѕРєРё РїСЂР°РІРѕРіРѕ Р°СЂРіСѓРјРµРЅС‚Р°
 		eos_i = cell_value.find_last_not_of(nums);
 		arg2_i = stoi(cell_value.substr(eos_i + 1, cell_value.size() - eos_i));
 		arg2_s = cell_value.substr(op_pos + 1, eos_i - op_pos);
 
-		// Находим имя колонки и номер строки левого аргумента
+		// РќР°С…РѕРґРёРј РёРјСЏ РєРѕР»РѕРЅРєРё Рё РЅРѕРјРµСЂ СЃС‚СЂРѕРєРё Р»РµРІРѕРіРѕ Р°СЂРіСѓРјРµРЅС‚Р°
 		eos_i = cell_value.find_last_not_of(nums, op_pos - 1);
 		arg1_i = stoi(cell_value.substr(eos_i + 1, op_pos - eos_i));
 		arg1_s = cell_value.substr(1, eos_i);
 
-		// Ищем непосредственные номера ячеек в таблице
-		// Аргумент 1
+		// РС‰РµРј РЅРµРїРѕСЃСЂРµРґСЃС‚РІРµРЅРЅС‹Рµ РЅРѕРјРµСЂР° СЏС‡РµРµРє РІ С‚Р°Р±Р»РёС†Рµ
+		// РђСЂРіСѓРјРµРЅС‚ 1
 		size_t index1_r, index2_r, index1_c, index2_c;
 
 		if (!FindCellIndexes(arg1_i, arg1_s, row_numbers, column_headers, index1_r, index1_c, cell_value))
@@ -163,19 +163,19 @@ string GetResultAtCell(int c_n, int r_n, vector<string>& column_headers, vector<
 			return table[r_n][c_n] = cell_value;
 		}
 
-		// Аргумент 2
+		// РђСЂРіСѓРјРµРЅС‚ 2
 		if (!FindCellIndexes(arg2_i, arg2_s, row_numbers, column_headers, index2_r, index2_c, cell_value)) 
 		{
 			map[r_n][c_n] = true;
 			return table[r_n][c_n] = cell_value;
 		}
 
-		// Расчет значения в ячейке
+		// Р Р°СЃС‡РµС‚ Р·РЅР°С‡РµРЅРёСЏ РІ СЏС‡РµР№РєРµ
 		string g_arg1 = GetResultAtCell(index1_c, index1_r, column_headers, row_numbers, table, map);
 		string g_arg2 = GetResultAtCell(index2_c, index2_r, column_headers, row_numbers, table, map);
 		cell_value = Order(op_chr, g_arg1, g_arg2, cell_value);
 
-		// Блок выделения аргументов из ячейки // Конец // ========================================== //
+		// Р‘Р»РѕРє РІС‹РґРµР»РµРЅРёСЏ Р°СЂРіСѓРјРµРЅС‚РѕРІ РёР· СЏС‡РµР№РєРё // РљРѕРЅРµС† // ========================================== //
 	}
 
 	map[r_n][c_n] = true;
