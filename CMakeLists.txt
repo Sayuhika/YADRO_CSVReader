@@ -7,3 +7,4 @@ project ("CSVReader")
 
 # Включите подпроекты.
 add_subdirectory ("CSVReader")
+add_subdirectory ("CSVReaderTest")
