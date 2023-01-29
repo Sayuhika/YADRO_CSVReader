@@ -18,7 +18,7 @@ int main(int argc, char* argv[])
 		file_name = argv[1];
 	}
 	else {
-		//file_name = "t_ex5.csv";
+		//file_name = "t_ex8.csv";
 		cout << "Работа программы прекращена по причине:" << endl;
 		cout << "Путь к файлу не указан." << endl;
 		return 1;
@@ -63,6 +63,7 @@ int main(int argc, char* argv[])
 			{
 				cout << "Программа завершила работу с ошибкой:" << endl;
 				cout << "Некорректный номер строки: " << r_head << "." <<endl;
+				cout << "Номер строки должен определяться ТОЛЬКО цифрами." << endl;
 
 				return 3;
 			}

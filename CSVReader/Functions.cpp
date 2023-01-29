@@ -155,15 +155,20 @@ string GetResultAtCell(int c_n, int r_n, vector<string>& column_headers, vector<
 			arg_s = cell_value.substr(1, eos_i);
 
 			// Попытка получения индексов ячейки
-			if (!FindCellIndexes(arg_i, arg_s, row_numbers, column_headers, index_r, index_c, cell_value))
+			if (arg_s.empty())
+			{
+				table[r_n][c_n] = to_string(arg_i);
+			}else if (!FindCellIndexes(arg_i, arg_s, row_numbers, column_headers, index_r, index_c, cell_value))
 			{
 				map[r_n][c_n] = true;
 				return table[r_n][c_n] = cell_value;
 			}
+			else {
+				table[r_n][c_n] = GetResultAtCell(index_c, index_r, column_headers, row_numbers, table, map);
+			}
 
 			map[r_n][c_n] = true; 
-			table[r_n][c_n] = cell_value = GetResultAtCell(index_c, index_r, column_headers, row_numbers, table, map);
-			return cell_value;
+			return table[r_n][c_n];
 		}
 
 		// Случай двух аргументов "=A1+A2"
