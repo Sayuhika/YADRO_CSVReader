@@ -1,10 +1,10 @@
-#include <gtest/gtest.h>
+п»ї#include <gtest/gtest.h>
 #include "../CSVReader/CSVReader.h"
 #include "../CSVReader/Functions.cpp"
 
 vector<string> *exceptions_collector = new vector<string>;
 
-// Тестирование функции ReadLine() на корректном примере.
+// РўРµСЃС‚РёСЂРѕРІР°РЅРёРµ С„СѓРЅРєС†РёРё ReadLine() РЅР° РєРѕСЂСЂРµРєС‚РЅРѕРј РїСЂРёРјРµСЂРµ.
 TEST(CSVReader, ReadLineCorrect) 
 {
 	vector<string> row_t;
@@ -29,7 +29,7 @@ TEST(CSVReader, ReadLineCorrect)
 	}
 }
 
-// Тестирование функции ReadLine() на НЕкорректном примере.
+// РўРµСЃС‚РёСЂРѕРІР°РЅРёРµ С„СѓРЅРєС†РёРё ReadLine() РЅР° РќР•РєРѕСЂСЂРµРєС‚РЅРѕРј РїСЂРёРјРµСЂРµ.
 TEST(CSVReader, ReadLineUncorrect)
 {
 	vector<string> row_t;
@@ -55,7 +55,7 @@ TEST(CSVReader, ReadLineUncorrect)
 	}
 }
 
-// Тестирование функции Order() на корректном примере.
+// РўРµСЃС‚РёСЂРѕРІР°РЅРёРµ С„СѓРЅРєС†РёРё Order() РЅР° РєРѕСЂСЂРµРєС‚РЅРѕРј РїСЂРёРјРµСЂРµ.
 TEST(CSVReader, OrderCorrect)
 {
 	string cell_value = "=A2+B3";
@@ -85,7 +85,7 @@ TEST(CSVReader, OrderCorrect)
 	EXPECT_EQ(op_res, to_string(1.));
 }
 
-// Тестирование функции Order() на НЕкорректном примере.
+// РўРµСЃС‚РёСЂРѕРІР°РЅРёРµ С„СѓРЅРєС†РёРё Order() РЅР° РќР•РєРѕСЂСЂРµРєС‚РЅРѕРј РїСЂРёРјРµСЂРµ.
 TEST(CSVReader, OrderUncorrect)
 {
 	string cell_value = "=A2+B3";
