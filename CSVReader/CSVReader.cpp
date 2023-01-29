@@ -18,10 +18,10 @@ int main(int argc, char* argv[])
 		file_name = argv[1];
 	}
 	else {
-		file_name = "t_ex4.csv";
-		//cout << "Работа программы прекращена по причине:" << endl;
-		//cout << "Путь к файлу не указан." << endl;
-		//return 1;
+		//file_name = "t_ex4.csv";
+		cout << "Работа программы прекращена по причине:" << endl;
+		cout << "Путь к файлу не указан." << endl;
+		return 1;
 	}
 
 	vector<vector<string>> table;
@@ -127,6 +127,8 @@ int main(int argc, char* argv[])
 	}
 
 	// Вывод таблицы в консоль
+	double res;
+
 	for (i = 0; i < column_headers.size(); i++)
 	{
 		cout << "," << column_headers[i];
@@ -137,12 +139,17 @@ int main(int argc, char* argv[])
 
 		for (j = 0; j < column_headers.size(); j++){
 
-			// Форматирование double значений
-			replace(table[i][j].begin(), table[i][j].end(), ',', '.');
-
 			// Вывод расчитанных данных
-			try{						cout << "," << setprecision(2) << stod(table[i][j]);}
-			catch (const exception&){	cout << "," << table[i][j];}
+			try 
+			{
+				res = stod(table[i][j]);
+
+				cout << "," << setprecision(2) << res;
+			}
+			catch (const exception&)
+			{	
+				cout << "," << table[i][j];
+			}
 		}
 	}
 
