@@ -190,26 +190,37 @@ string GetResultAtCell(int c_n, int r_n, vector<string>& column_headers, vector<
 
 		// Ищем непосредственные номера ячеек в таблице
 		size_t index1_r, index2_r, index1_c, index2_c;
+		string g_arg1, g_arg2;
 
 		// Аргумент 1
 		// Попытка получения индексов ячейки
-		if (!FindCellIndexes(arg1_i, arg1_s, row_numbers, column_headers, index1_r, index1_c, cell_value))
+		if (arg1_s.empty())
+		{
+			g_arg1 = to_string(arg1_i);
+		} else if (!FindCellIndexes(arg1_i, arg1_s, row_numbers, column_headers, index1_r, index1_c, cell_value))
 		{
 			map[r_n][c_n] = true;
 			return table[r_n][c_n] = cell_value;
+		}
+		else {
+			g_arg1 = GetResultAtCell(index1_c, index1_r, column_headers, row_numbers, table, map);
 		}
 
 		// Аргумент 2
 		// Попытка получения индексов ячейки
-		if (!FindCellIndexes(arg2_i, arg2_s, row_numbers, column_headers, index2_r, index2_c, cell_value)) 
+		if (arg2_s.empty())
+		{
+			g_arg2 = to_string(arg2_i);
+		} else if (!FindCellIndexes(arg2_i, arg2_s, row_numbers, column_headers, index2_r, index2_c, cell_value)) 
 		{
 			map[r_n][c_n] = true;
 			return table[r_n][c_n] = cell_value;
 		}
+		else {
+			g_arg2 = GetResultAtCell(index2_c, index2_r, column_headers, row_numbers, table, map);
+		}
 
 		// Расчет значения в ячейке
-		string g_arg1 = GetResultAtCell(index1_c, index1_r, column_headers, row_numbers, table, map);
-		string g_arg2 = GetResultAtCell(index2_c, index2_r, column_headers, row_numbers, table, map);
 		cell_value = Order(op_chr, g_arg1, g_arg2, cell_value);
 
 		// Блок выделения аргументов из ячейки // Конец // ========================================== //

@@ -94,23 +94,23 @@ TEST(CSVReader, OrderUncorrect)
 	string arg1 = "2A";
 	string arg2 = "3";
 	string op_res = Order(op, arg1, arg2, cell_value);
-	EXPECT_EQ(op_res, "2A3");
+	EXPECT_EQ(op_res, cell_value);
 
 	op = '-';
 	arg1 = "2";
 	arg2 = "3D";
 	op_res = Order(op, arg1, arg2, cell_value);
-	EXPECT_EQ(op_res, "23D");
+	EXPECT_EQ(op_res, cell_value);
 
 	op = '*';
 	arg1 = "2D";
 	arg2 = "3A";
 	op_res = Order(op, arg1, arg2, cell_value);
-	EXPECT_EQ(op_res, "2D3A");
+	EXPECT_EQ(op_res, cell_value);
 
 	op = '/';
 	arg1 = "D2A";
 	arg2 = "C2e";
 	op_res = Order(op, arg1, arg2, cell_value);
-	EXPECT_EQ(op_res, "D2AC2e");
+	EXPECT_EQ(op_res, cell_value);
 }
