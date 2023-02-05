@@ -12,9 +12,8 @@ const string nums = "0123456789";
 /// </summary>
 /// <param name="line">Строка для сегментации по запятым</param>
 /// <param name="row">Вектор из элементов сегментированной строки</param>
-/// <param name="r_n">Служит для хранения значения вызывающего исключение</param>
 /// <returns></returns>
-int ReadLine(string line, vector<string>& row, string& r_n);
+void ReadLine(string line, vector<string>& row, string &row_number);
 
 /// <summary>
 /// Функция поиска индексов ячейки
@@ -28,7 +27,7 @@ int ReadLine(string line, vector<string>& row, string& r_n);
 /// <param name="exceptions_collector">Сборщик исключений - собирает в себя исключения, если таковые возникнут</param>
 /// <param name="cell_value">Исходное значение дробящейся ячейки. Требуется для создания сообщения в случаи исключения</param>
 /// <returns></returns>
-bool FindCellIndexes(int& arg_r, string& arg_c, vector<int> row_numbers, vector<string> column_headers,
+void FindCellIndexes(string& arg_r, string& arg_c, vector<string> row_numbers, vector<string> column_headers,
 	size_t& index_r, size_t& index_c, string& cell_value);
 
 /// <summary>
@@ -38,28 +37,13 @@ bool FindCellIndexes(int& arg_r, string& arg_c, vector<int> row_numbers, vector<
 /// <param name="arg1">Левый аргумент математического выражения</param>
 /// <param name="arg2">Правый аргумент математического выражения</param>
 /// <returns></returns>
-string Order(int mod, string arg1, string arg2, string& cell_value);
+string Order(char op, string arg1, string arg2, string& cell_value);
 
 /// <summary>
 /// Функция попытки получения int из string
 /// </summary>
-/// <param name="arg">Переменная для хранения int</param>
 /// <param name="cell_value">Исходная ячейка</param>
 /// <param name="substr_start_pos">Позиция с которой мы пытаемся срезать число из исходной ячейки</param>
 /// <param name="substr_count">Число срезаемых символов</param>
 /// <returns></returns>
-bool TryStoI(int& arg, string& cell_value, int substr_start_pos, int substr_count);
-
-/// <summary>
-/// Функция вычисления значения в ячейке
-/// </summary>
-/// <param name="c_n">Индекс колонки ячейки</param>
-/// <param name="r_n">Индекс строки ячейки</param>
-/// <param name="column_headers">Список номеров строк</param>
-/// <param name="row_numbers">Список имен колонок</param>
-/// <param name="table">Таблица значений</param>
-/// <param name="map">Карта для пометки вычисленных ячеек</param>
-/// <param name="exceptions_collector">Сборщик исключений - собирает в себя исключения, если таковые возникнут</param>
-/// <returns></returns>
-string GetResultAtCell(int c_n, int r_n, vector<string>& column_headers, vector<int>& row_numbers, 
-	vector<vector<string>>& table, vector<vector<bool>>& map);
+int TryStoI(string& cell_value, int substr_start_pos, int substr_count);

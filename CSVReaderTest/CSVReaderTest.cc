@@ -2,8 +2,6 @@
 #include "../CSVReader/CSVReader.h"
 #include "../CSVReader/Functions.cpp"
 
-vector<string> *exceptions_collector = new vector<string>;
-
 // Тестирование функции ReadLine() на корректном примере.
 TEST(CSVReader, ReadLineCorrect) 
 {
@@ -16,12 +14,12 @@ TEST(CSVReader, ReadLineCorrect)
 		line += "," + to_string(i);
 	}
 
-	string r_n;
+	string row_number;
 	vector<string> row;
 
-	int row_number = ReadLine(line, row, r_n);
+	ReadLine(line, row, row_number);
 
-	EXPECT_EQ(row_number, 1);
+	EXPECT_EQ(row_number, "1");
 	EXPECT_EQ(row.size(), row_t.size());
 	for (size_t i = 0; i < row.size(); i++)
 	{
@@ -41,13 +39,18 @@ TEST(CSVReader, ReadLineUncorrect)
 		line += "," + to_string(i);
 	}
 
-	string r_n;
+	string row_number;
 	vector<string> row;
 
-	int row_number = ReadLine(line, row, r_n);
+	try 
+	{
+		ReadLine(line, row, row_number);
+	}
+	catch (runtime_error)
+	{
 
-	EXPECT_EQ(row_number, -1);
-	EXPECT_EQ(r_n, "A");
+	}
+	EXPECT_EQ(row_number, "A");
 	EXPECT_EQ(row.size(), row_t.size());
 	for (size_t i = 0; i < row.size(); i++)
 	{

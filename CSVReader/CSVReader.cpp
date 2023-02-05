@@ -3,10 +3,10 @@
 #include <fstream>
 #include <iomanip>
 #include <algorithm>
+#include "ExceptionsCollector.h"
+#include "ResultAtCell.h"
 
 using namespace std;
-
-vector<string> *exceptions_collector;
 
 int main(int argc, char* argv[])
 {
@@ -18,7 +18,7 @@ int main(int argc, char* argv[])
 		file_name = argv[1];
 	}
 	else {
-		//file_name = "t_ex8.csv";
+		//file_name = "t_ex7.csv";
 		cout << "Работа программы прекращена по причине:" << endl;
 		cout << "Путь к файлу не указан." << endl;
 		return 1;
@@ -26,11 +26,9 @@ int main(int argc, char* argv[])
 
 	vector<vector<string>> table;
 	vector<vector<bool>> check_pos_map;
-	vector<string> row, column_headers;
+	vector<string> row, column_headers, row_numbers;
 	vector<bool> row_false_init;
-	vector<int>	row_numbers;
-	string line, r_head;
-	int row_number;
+	string line, row_number;
 	size_t i, j;
 
 	// Получаем таблицу
@@ -39,16 +37,17 @@ int main(int argc, char* argv[])
 	{
 		// Получаем набор наименований колонок
 		getline(file, line);
-		ReadLine(line, column_headers, r_head);
+
+		try { ReadLine(line, column_headers, row_number); }
+		catch (runtime_error) {};
 
 		// Проверка на корректность имен колонок
 		for(string header:column_headers){
-			if (nums.find(header[header.size() - 1]) != string::npos) {
-				cout << "Программа завершила работу с ошибкой:" << endl;
-				cout << "Некорректное имя колонки: " << header << "." << endl;
-				cout << "Имя колонки не должно заканчиваться на цифру." << endl;
-
-				return 2;
+			if (nums.find(header[header.size() - 1]) != string::npos) 
+			{
+				ExceptionsCollector::getInstance()->add(
+					"Некорректное имя колонки: "s + header + ".\n" +
+					"Имя колонки не должно заканчиваться на цифру.");
 			}
 		}
 
@@ -58,15 +57,15 @@ int main(int argc, char* argv[])
 			row.clear();
 			row_false_init.clear();
 
-			row_number = ReadLine(line, row, r_head);
-			if (row_number == -1)
+			try						
 			{
-				cout << "Программа завершила работу с ошибкой:" << endl;
-				cout << "Некорректный номер строки: " << r_head << "." <<endl;
-				cout << "Номер строки должен определяться ТОЛЬКО цифрами." << endl;
-
-				return 3;
+				 ReadLine(line, row, row_number);
 			}
+			catch(runtime_error e)	
+			{
+				ExceptionsCollector::getInstance()->add(e.what());
+			}
+
 			row_numbers.push_back(row_number);
 			table.push_back(row);
 
@@ -79,7 +78,7 @@ int main(int argc, char* argv[])
 			check_pos_map.push_back(row_false_init);
 		}
 	}
-	exceptions_collector = new vector<string>;
+	file.close();
 
 	// Проверка таблицы на "прямоугольность"
 	size_t row_size(column_headers.size());
@@ -89,8 +88,8 @@ int main(int argc, char* argv[])
 	{	
 		if (table[i].size() != row_size)
 		{
-			exceptions_collector->push_back(
-				"Некорректное число элементов в строке: " + to_string(row_numbers[i]) +
+			ExceptionsCollector::getInstance()->add(
+				"Некорректное число элементов в строке: " + row_numbers[i] +
 				"\nТекущее число:  " + to_string(table[i].size()) + ";" +
 				"\nОжидаемое число:" + to_string(row_size) + ".");
 
@@ -114,9 +113,9 @@ int main(int argc, char* argv[])
 			}
 		}
 	}
-	if (flag_se_b) exceptions_collector->push_back(
+	if (flag_se_b) ExceptionsCollector::getInstance()->add(
 		"Таблица была обрезана по ширине основываясь на числе известных имен колонок.");
-	if (flag_se_s) exceptions_collector->push_back(
+	if (flag_se_s) ExceptionsCollector::getInstance()->add(
 		"Неуказанные в файле элементы строки таблицы были автоматически добавлены на основывании числа известных имен колонок.");
 
 
@@ -155,18 +154,8 @@ int main(int argc, char* argv[])
 	}
 
 	// Вывод списка ошибок
-	size_t  ec_s = exceptions_collector->size();
-
-	if (ec_s > 0)
-	{
-		cout << endl << "\nСписок выявленных проблем при работе с таблицей:" << endl;
-
-		for (i = 0; i < ec_s; i++){
-			cout << to_string(i + 1) << ") " << exceptions_collector->at(i) << endl;
-		}
-	}
-
-	delete exceptions_collector;
+	
+	ExceptionsCollector::getInstance()->print();
 
 	return 0;
 }
